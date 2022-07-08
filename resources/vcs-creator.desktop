@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=VCS Creator
+Comment=GUI for the Video Contact Sheet script
+Comment[it]=GPU per lo script Video Contact Sheet
+Exec=com.github.tudo75.vcs-creator
+Icon=vcs-creator
+Terminal=false
+Categories=GTK;GNOME;Utility;
+StartupNotify=true
