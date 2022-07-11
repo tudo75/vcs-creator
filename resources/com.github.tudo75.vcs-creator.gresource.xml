@@ -2,5 +2,7 @@
 <gresources>
     <gresource prefix="/com/github/tudo75/vcs-creator/">
         <file alias="style.css" compressed="true">style.css</file>
+        <file alias="drophere.png" compressed="true">drophere.png</file>
+        <file alias="vcs-creator.svg" compressed="true">vcs-creator.svg</file>
     </gresource>
 </gresources>
