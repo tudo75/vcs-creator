@@ -1,0 +1,269 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.tudo75.vcs-creator package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.tudo75.vcs-creator\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-15 00:42+0200\n"
+"PO-Revision-Date: 2022-07-15 00:48+0200\n"
+"Last-Translator: Nicola Tudino <tudo75@gmail.com>\n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: resources/vcs-creator.desktop:5 src/application.vala:359
+msgid "VCS Creator"
+msgstr ""
+
+#: resources/vcs-creator.desktop:6
+msgid "GUI for the Video Contact Sheet script"
+msgstr "Interfaccia grafica per lo script Video Contact Sheet *NIX"
+
+#: resources/vcs-creator.desktop:9
+msgid "vcs-creator"
+msgstr ""
+
+#: src/application.vala:149
+msgid "Show files list"
+msgstr "Mostra la lista dei file"
+
+#: src/application.vala:152
+msgid "Hide files list"
+msgstr "Nascondi la lista dei file"
+
+#: src/application.vala:155 src/settingsdialog.vala:64
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: src/application.vala:158
+msgid "About"
+msgstr "Informazioni"
+
+#: src/application.vala:161 src/settingsdialog.vala:399
+msgid "Close"
+msgstr "Chiudi"
+
+#: src/application.vala:189
+msgid "Start"
+msgstr "Avvia"
+
+#: src/application.vala:254 src/application.vala:255 src/application.vala:273
+#: src/application.vala:274 src/application.vala:304 src/application.vala:305
+#: src/settingsdialog.vala:476 src/settingsdialog.vala:477
+msgid "Error"
+msgstr "Errore"
+
+#: src/application.vala:360
+msgid "Copyright 2022 Nicola \"tudo75\" Tudino"
+msgstr ""
+
+#: src/filesdialog.vala:40 src/filesdialog.vala:66
+msgid "Files"
+msgstr "Elenco dei file"
+
+#: src/settingsdialog.vala:84
+msgid "General"
+msgstr "Generali"
+
+#: src/settingsdialog.vala:95
+msgid "Capture interval"
+msgstr "Intervallo di cattura"
+
+#: src/settingsdialog.vala:99
+msgid "Capture time interval in seconds"
+msgstr "Intervallo di cattura delle immagini in secondi"
+
+#: src/settingsdialog.vala:101
+msgid "Number of captures"
+msgstr "Numero di catture"
+
+#: src/settingsdialog.vala:105
+msgid "Number of captures to compose in the sheet"
+msgstr "Numero delle immagini da catturare"
+
+#: src/settingsdialog.vala:107
+msgid "Capture mode"
+msgstr "Modalità di cattura"
+
+#: src/settingsdialog.vala:110
+msgid ""
+"Screenshots capture mode:\n"
+"ruled by time interval or by total number of captures"
+msgstr ""
+"Modalità di cattura delle immagini:\n"
+"per intervallo di tempo o per numero totale di immagini catturate"
+
+#: src/settingsdialog.vala:131
+msgid "Image format"
+msgstr "Formato dell'immagine"
+
+#: src/settingsdialog.vala:134
+msgid "Image format for the sheet"
+msgstr "Formato dell'immagine del collage"
+
+#: src/settingsdialog.vala:154
+msgid "Image quality"
+msgstr "Qualità dell'immagine"
+
+#: src/settingsdialog.vala:158
+msgid "Quality level for the sheet: 0 to 100"
+msgstr "Qualità dell'immagine del collage: tra 0 e 100"
+
+#: src/settingsdialog.vala:166
+msgid "Signature prefix"
+msgstr "Prefisso della firma"
+
+#: src/settingsdialog.vala:170
+msgid "Prefix for the user signature in the footer"
+msgstr "Prefisso da utilizzare per la firma dell'utente a pie di pagina"
+
+#: src/settingsdialog.vala:172
+msgid "Signature"
+msgstr "Firma"
+
+#: src/settingsdialog.vala:185
+msgid "Enable the user signature in the sheet footer"
+msgstr "Abilita la firma dell'utente a pie di pagina nel collage"
+
+#: src/settingsdialog.vala:193
+msgid "Number of columns"
+msgstr "Numero di colonne"
+
+#: src/settingsdialog.vala:197
+msgid "Number of columns in the sheet"
+msgstr "Numero di colonne che comporranno il collage"
+
+#: src/settingsdialog.vala:205
+msgid "Padding"
+msgstr "Spaziatura"
+
+#: src/settingsdialog.vala:209
+msgid "Padding space between images"
+msgstr "Spaziatura fra le immagini del collage"
+
+#: src/settingsdialog.vala:212
+msgid "Show shadows"
+msgstr "Mostra ombre"
+
+#: src/settingsdialog.vala:221
+msgid "Enable drop shadows"
+msgstr "Abilita la creazione di ombre al di sotto delle immagini del collage"
+
+#: src/settingsdialog.vala:230
+msgid "Capture height"
+msgstr "Altezza singola immagine"
+
+#: src/settingsdialog.vala:234
+msgid "Height of the single capture frame"
+msgstr "Altezza della singola immagine catturata"
+
+#: src/settingsdialog.vala:237
+msgid "Show timestamps"
+msgstr "Mostra marca temporale"
+
+#: src/settingsdialog.vala:246
+msgid "Diplay timestamps on captures"
+msgstr "Mostra la marca temporale delle catture"
+
+#: src/settingsdialog.vala:254
+msgid "Colors"
+msgstr "Colori"
+
+#: src/settingsdialog.vala:263
+msgid "Header background"
+msgstr "Sfondo del frontespizio"
+
+#: src/settingsdialog.vala:266
+msgid "Background color for the header section"
+msgstr "Colore dello sfondo del frontespizio"
+
+#: src/settingsdialog.vala:271
+msgid "Header font color"
+msgstr "Colore del carattere del frontespizio"
+
+#: src/settingsdialog.vala:274
+msgid "Font color for the header section"
+msgstr "Colore del carattere del frontespizio"
+
+#: src/settingsdialog.vala:285
+msgid "Signature background"
+msgstr "Sfondo della firma"
+
+#: src/settingsdialog.vala:288
+msgid "Background color for the signature section"
+msgstr "Colore dello sfondo per la firma"
+
+#: src/settingsdialog.vala:293
+msgid "Signature font color"
+msgstr "Colore del carattere della firma"
+
+#: src/settingsdialog.vala:296
+msgid "Font color for the signature section"
+msgstr "Colore del carattere della firma"
+
+#: src/settingsdialog.vala:307
+msgid "Title background"
+msgstr "Sfondo del titolo"
+
+#: src/settingsdialog.vala:310
+msgid "Background color for the title section"
+msgstr "Colore dello sfondo del titolo"
+
+#: src/settingsdialog.vala:315
+msgid "Title font color"
+msgstr "Colore del carattere del titolo"
+
+#: src/settingsdialog.vala:318
+msgid "Font color for the title section"
+msgstr "Colore del carattere del titolo"
+
+#: src/settingsdialog.vala:329
+msgid "Timestamps background"
+msgstr "Sfondo della marca temporale"
+
+#: src/settingsdialog.vala:332
+msgid "Background color for the timestamps box"
+msgstr "Colore dello sfondo della marca temporale"
+
+#: src/settingsdialog.vala:337
+msgid "Timestamps font color"
+msgstr "Colore del carattere della marca temporale"
+
+#: src/settingsdialog.vala:340
+msgid "Font color for the timestamps box"
+msgstr "Colore del carattere della marca temporale"
+
+#: src/settingsdialog.vala:351
+msgid "Captures background"
+msgstr "Sfondo delle catture"
+
+#: src/settingsdialog.vala:354
+msgid "Background color for the captures section"
+msgstr "Colore dello sfondo della sezione delle immagini catturate"
+
+#: src/settingsdialog.vala:397
+msgid "Save"
+msgstr "Salva"
+
+#: src/settingsdialog.vala:398
+msgid "Apply"
+msgstr "Applica"
+
+#: src/settingsdialog.vala:470
+msgid "Preferences saved!"
+msgstr "Le preferenze sono state salvate!"
+
+#: src/settingsdialog.vala:471
+msgid ""
+"All the preferences are saved.\n"
+"Now you can close this window."
+msgstr ""
+"Tutte le preferenze sono state salvate.\n"
+"Ora puoi chiudere questa finestra."

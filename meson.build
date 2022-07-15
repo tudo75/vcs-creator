@@ -18,11 +18,17 @@ gnome = import('gnome')
 dependencies = [
 	dependency('gtk+-3.0', version: '>= 3.20'),
 	dependency('glib-2.0'),
+	dependency('gio-2.0'),
+	dependency('gee-0.8'),
 	dependency('cairo'),
+    meson.get_compiler('c').find_library('m', required: false),
+    meson.get_compiler('vala').find_library('posix'),
 ]
 
 sources = files(
     'src/application.vala',
+    'src/settingsdialog.vala',
+    'src/filesdialog.vala',
 )
 
 sources += gnome.compile_resources(
@@ -48,8 +54,8 @@ valadoc = find_program(
 )
 docsrc = [
     '../src/application.vala',
-    '../src/main.vala',
-    '../src/window.vala',
+    '../src/settingsdialog.vala',
+    '../src/filesdialog.vala',
 ]
 
 doc = custom_target(

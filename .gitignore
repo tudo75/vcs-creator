@@ -1,7 +1,7 @@
 meson-configure.txt
-xed_src
 test_files
-plantuml
+vcs-creator
+src-images
 
 *.pot
 *.mo

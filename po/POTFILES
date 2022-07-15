@@ -1,2 +1,4 @@
 src/application.vala
+src/settingsdialog.vala
+src/filesdialog.vala
 resources/vcs-creator.desktop
