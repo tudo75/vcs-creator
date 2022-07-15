@@ -28,6 +28,7 @@ debian/.debhelper
 debian/vcs-creator.substvars
 debian/vcs-creator.debhelper.log
 debian/files
+doc
 
 *.gcda
 *.gcno
