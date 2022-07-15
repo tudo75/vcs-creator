@@ -1,3 +1,9 @@
+vcs-creator (0.1.1) una; urgency=medium
+
+  * Small fixes and improvements.
+
+ -- tudo75 <tudo75@users.noreply.github.com>  Fri, 15 Jul 2022 14:08:55 +0000
+
 vcs-creator (0.1.0) una; urgency=medium
 
   * Initial release.

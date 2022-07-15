@@ -132,7 +132,7 @@ namespace VcsCreator {
             Gtk.MenuButton menu_btn = new Gtk.MenuButton ();
             menu_btn.set_use_popover (true);
             //menu_btn.set_active (true);
-            menu_btn.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR));
+            menu_btn.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU));
             menu_btn.set_popover (popover);
             headerbar.pack_end (menu_btn);
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.tudo75.vcs-creator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-15 00:42+0200\n"
-"PO-Revision-Date: 2022-07-15 00:48+0200\n"
+"POT-Creation-Date: 2022-07-15 14:01+0200\n"
+"PO-Revision-Date: 2022-07-15 14:02+0200\n"
 "Last-Translator: Nicola Tudino <tudo75@gmail.com>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: resources/vcs-creator.desktop:5 src/application.vala:359
+#: resources/vcs-creator.desktop:5 src/application.vala:353
 msgid "VCS Creator"
 msgstr ""
 
@@ -30,43 +30,47 @@ msgstr "Interfaccia grafica per lo script Video Contact Sheet *NIX"
 msgid "vcs-creator"
 msgstr ""
 
-#: src/application.vala:149
+#: src/application.vala:150
 msgid "Show files list"
 msgstr "Mostra la lista dei file"
 
-#: src/application.vala:152
+#: src/application.vala:153
 msgid "Hide files list"
 msgstr "Nascondi la lista dei file"
 
-#: src/application.vala:155 src/settingsdialog.vala:64
+#: src/application.vala:156 src/settingsdialog.vala:64
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: src/application.vala:158
+#: src/application.vala:159
 msgid "About"
 msgstr "Informazioni"
 
-#: src/application.vala:161 src/settingsdialog.vala:399
+#: src/application.vala:162 src/settingsdialog.vala:399
 msgid "Close"
 msgstr "Chiudi"
 
-#: src/application.vala:189
+#: src/application.vala:190
 msgid "Start"
 msgstr "Avvia"
 
-#: src/application.vala:254 src/application.vala:255 src/application.vala:273
-#: src/application.vala:274 src/application.vala:304 src/application.vala:305
+#: src/application.vala:256 src/application.vala:257 src/application.vala:263
+#: src/application.vala:264 src/application.vala:298 src/application.vala:299
 #: src/settingsdialog.vala:476 src/settingsdialog.vala:477
 msgid "Error"
 msgstr "Errore"
 
-#: src/application.vala:360
+#: src/application.vala:354
 msgid "Copyright 2022 Nicola \"tudo75\" Tudino"
 msgstr ""
 
-#: src/filesdialog.vala:40 src/filesdialog.vala:66
+#: src/filesdialog.vala:43 src/filesdialog.vala:70
 msgid "Files"
 msgstr "Elenco dei file"
+
+#: src/filesdialog.vala:83
+msgid "Generating sheets"
+msgstr "Generazione in corso"
 
 #: src/settingsdialog.vala:84
 msgid "General"
