@@ -64,7 +64,7 @@ namespace VcsCreator {
             this.set_title (_("Settings"));
 
             this.response.connect (this.on_response);
-            
+
             int grid_row = 0;
 
             var main_grid = new Gtk.Grid ();
@@ -91,7 +91,7 @@ namespace VcsCreator {
             grid_row++;
 
             try {
-                
+
                 Gtk.Label interval_lbl = new Gtk.Label (_("Capture interval"));
                 interval_lbl.set_halign (Gtk.Align.START);
                 interval_spin = new Gtk.SpinButton (new Gtk.Adjustment (50.0, 0.0, 6000.0, 1.0, 60.0, 0.0), 1.0, 0);
@@ -107,7 +107,9 @@ namespace VcsCreator {
                 Gtk.Label capture_mode_lbl = new Gtk.Label (_("Capture mode"));
                 capture_mode_lbl.set_halign (Gtk.Align.START);
                 Gtk.Box capture_mode_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-                capture_mode_box.set_tooltip_text (_("Screenshots capture mode:\nruled by time interval or by total number of captures"));
+                capture_mode_box.set_tooltip_text (
+                    _("Screenshots capture mode:\nruled by time interval or by total number of captures")
+                );
                 GLib.SList<Gtk.RadioButton> capture_mode_slist = new GLib.SList<Gtk.RadioButton> ();
                 capture_mode_interval = new Gtk.RadioButton.with_label (capture_mode_slist, "Interval");
                 capture_mode_numcaps = new Gtk.RadioButton.with_label_from_widget (capture_mode_interval, "Captures");
@@ -219,17 +221,21 @@ namespace VcsCreator {
                     shadows_switch.set_active (false);
                 }
                 shadows_switch.set_tooltip_text (_("Enable drop shadows"));
-                
+
                 main_grid.attach (padding_lbl, 0, grid_row, 1, 1);
                 main_grid.attach (padding_spin, 1, grid_row, 1, 1);
                 main_grid.attach (shadows_lbl, 3, grid_row, 1, 1);
                 main_grid.attach (shadows_switch, 4, grid_row, 1, 1);
                 grid_row++;
-                
+
                 // Height of the single capture frame
                 Gtk.Label capture_height_lbl = new Gtk.Label (_("Capture height"));
                 capture_height_lbl.set_halign (Gtk.Align.START);
-                capture_height_spin = new Gtk.SpinButton (new Gtk.Adjustment (200.0, 100.0, 5000.0, 1.0, 10.0, 0.0), 1.0, 0);
+                capture_height_spin = new Gtk.SpinButton (
+                    new Gtk.Adjustment (200.0, 100.0, 5000.0, 1.0, 10.0, 0.0),
+                    1.0,
+                    0
+                );
                 capture_height_spin.set_value (_keyfile.get_integer ("vcs-cmd", "capture_height"));
                 capture_height_spin.set_tooltip_text (_("Height of the single capture frame"));
 
@@ -259,13 +265,13 @@ namespace VcsCreator {
                 lbl_colors.set_halign (Gtk.Align.CENTER);
                 main_grid.attach (lbl_colors, 0, grid_row, 5, 1);
                 grid_row++;
-                
+
                 Gtk.Label bg_heading_lbl = new Gtk.Label (_("Header background"));
                 bg_heading_lbl.set_halign (Gtk.Align.START);
                 bg_heading_btn = new Gtk.ColorButton ();
                 bg_heading_btn.set_tooltip_text (_("Background color for the header section"));
                 Gdk.RGBA bg_heading = Gdk.RGBA ();
-                bg_heading.parse(_keyfile.get_string ("vcs", "bg_heading"));
+                bg_heading.parse (_keyfile.get_string ("vcs", "bg_heading"));
                 bg_heading_btn.set_rgba (bg_heading);
 
                 Gtk.Label fg_heading_lbl = new Gtk.Label (_("Header font color"));
@@ -273,7 +279,7 @@ namespace VcsCreator {
                 fg_heading_btn = new Gtk.ColorButton ();
                 fg_heading_btn.set_tooltip_text (_("Font color for the header section"));
                 Gdk.RGBA fg_heading = Gdk.RGBA ();
-                fg_heading.parse(_keyfile.get_string ("vcs", "fg_heading"));
+                fg_heading.parse (_keyfile.get_string ("vcs", "fg_heading"));
                 fg_heading_btn.set_rgba (fg_heading);
 
                 main_grid.attach (bg_heading_lbl, 0, grid_row, 1, 1);
@@ -287,7 +293,7 @@ namespace VcsCreator {
                 bg_sign_btn = new Gtk.ColorButton ();
                 bg_sign_btn.set_tooltip_text (_("Background color for the signature section"));
                 Gdk.RGBA bg_sign = Gdk.RGBA ();
-                bg_sign.parse(_keyfile.get_string ("vcs", "bg_sign"));
+                bg_sign.parse (_keyfile.get_string ("vcs", "bg_sign"));
                 bg_sign_btn.set_rgba (bg_sign);
 
                 Gtk.Label fg_sign_lbl = new Gtk.Label (_("Signature font color"));
@@ -295,7 +301,7 @@ namespace VcsCreator {
                 fg_sign_btn = new Gtk.ColorButton ();
                 fg_sign_btn.set_tooltip_text (_("Font color for the signature section"));
                 Gdk.RGBA fg_sign = Gdk.RGBA ();
-                fg_sign.parse(_keyfile.get_string ("vcs", "fg_sign"));
+                fg_sign.parse (_keyfile.get_string ("vcs", "fg_sign"));
                 fg_sign_btn.set_rgba (fg_sign);
 
                 main_grid.attach (bg_sign_lbl, 0, grid_row, 1, 1);
@@ -309,7 +315,7 @@ namespace VcsCreator {
                 bg_title_btn = new Gtk.ColorButton ();
                 bg_title_btn.set_tooltip_text (_("Background color for the title section"));
                 Gdk.RGBA bg_title = Gdk.RGBA ();
-                bg_title.parse(_keyfile.get_string ("vcs", "bg_title"));
+                bg_title.parse (_keyfile.get_string ("vcs", "bg_title"));
                 bg_title_btn.set_rgba (bg_title);
 
                 Gtk.Label fg_title_lbl = new Gtk.Label (_("Title font color"));
@@ -317,7 +323,7 @@ namespace VcsCreator {
                 fg_title_btn = new Gtk.ColorButton ();
                 fg_title_btn.set_tooltip_text (_("Font color for the title section"));
                 Gdk.RGBA fg_title = Gdk.RGBA ();
-                fg_title.parse(_keyfile.get_string ("vcs", "fg_title"));
+                fg_title.parse (_keyfile.get_string ("vcs", "fg_title"));
                 fg_title_btn.set_rgba (fg_title);
 
                 main_grid.attach (bg_title_lbl, 0, grid_row, 1, 1);
@@ -331,7 +337,7 @@ namespace VcsCreator {
                 bg_tstamps_btn = new Gtk.ColorButton ();
                 bg_tstamps_btn.set_tooltip_text (_("Background color for the timestamps box"));
                 Gdk.RGBA bg_tstamps = Gdk.RGBA ();
-                bg_tstamps.parse(_keyfile.get_string ("vcs", "bg_tstamps"));
+                bg_tstamps.parse (_keyfile.get_string ("vcs", "bg_tstamps"));
                 bg_tstamps_btn.set_rgba (bg_tstamps);
 
                 Gtk.Label fg_tstamps_lbl = new Gtk.Label (_("Timestamps font color"));
@@ -339,7 +345,7 @@ namespace VcsCreator {
                 fg_tstamps_btn = new Gtk.ColorButton ();
                 fg_tstamps_btn.set_tooltip_text (_("Font color for the timestamps box"));
                 Gdk.RGBA fg_tstamps = Gdk.RGBA ();
-                fg_tstamps.parse(_keyfile.get_string ("vcs", "fg_tstamps"));
+                fg_tstamps.parse (_keyfile.get_string ("vcs", "fg_tstamps"));
                 fg_tstamps_btn.set_rgba (fg_tstamps);
 
                 main_grid.attach (bg_tstamps_lbl, 0, grid_row, 1, 1);
@@ -353,7 +359,7 @@ namespace VcsCreator {
                 bg_contact_btn = new Gtk.ColorButton ();
                 bg_contact_btn.set_tooltip_text (_("Background color for the captures section"));
                 Gdk.RGBA bg_contact = Gdk.RGBA ();
-                bg_contact.parse(_keyfile.get_string ("vcs", "bg_contact"));
+                bg_contact.parse (_keyfile.get_string ("vcs", "bg_contact"));
                 bg_contact_btn.set_rgba (bg_contact);
                 main_grid.attach (bg_contact_lbl, 0, grid_row, 1, 1);
                 main_grid.attach (bg_contact_btn, 1, grid_row, 1, 1);
@@ -424,10 +430,10 @@ namespace VcsCreator {
         private string rgb_to_hex (Gdk.RGBA rgba) {
             string s =
                 "#%02x%02x%02x"
-                .printf((uint)(Math.round(rgba.red*255)),
-                        (uint)(Math.round(rgba.green*255)),
-                        (uint)(Math.round(rgba.blue*255)))
-                .up();
+                .printf ((uint) (Math.round (rgba.red * 255)),
+                        (uint) (Math.round (rgba.green * 255)),
+                        (uint) (Math.round (rgba.blue * 255)))
+                .up ();
                 return s;
         }
 
@@ -440,7 +446,7 @@ namespace VcsCreator {
             if (!shadows_switch.get_active ()) disable_shadows = 1;
             if (!timestamps_switch.get_active ()) disable_timestamps = 1;
             if (format_jpg.get_active ()) format = "jpg";
-            
+
             _keyfile.set_string ("vcs-cmd", "capture_mode", capture_mode); //Interval i or captures n 
             _keyfile.set_integer ("vcs-cmd", "signature_mode", signature_mode); //None 0 or 1
             _keyfile.set_integer ("vcs-cmd", "capture_height", capture_height_spin.get_value_as_int ()); //Height of the single capture frame
@@ -455,31 +461,43 @@ namespace VcsCreator {
 
             _keyfile.set_string ("vcs", "signature", signature_prefix_entry.get_text ()); //Text before the user name in the signature 
             _keyfile.set_string ("vcs", "format", format); //Sets the output format 
-            _keyfile.set_string ("vcs", "bg_heading", this.rgb_to_hex(bg_heading_btn.get_rgba ())); //Background for meta info (size, codec…) 
-            _keyfile.set_string ("vcs", "bg_sign", this.rgb_to_hex(bg_sign_btn.get_rgba ())); //Background for signature 
-            _keyfile.set_string ("vcs", "bg_title", this.rgb_to_hex(bg_title_btn.get_rgba ())); //Background for the title (see -T)
-            _keyfile.set_string ("vcs", "bg_contact", this.rgb_to_hex(bg_contact_btn.get_rgba ())); //Background for the captures 
-            _keyfile.set_string ("vcs", "bg_tstamps", this.rgb_to_hex(bg_tstamps_btn.get_rgba ())); //Background for the timestamps box
-            _keyfile.set_string ("vcs", "fg_heading", this.rgb_to_hex(fg_heading_btn.get_rgba ())); //Font colour for meta info box
-            _keyfile.set_string ("vcs", "fg_sign", this.rgb_to_hex(fg_sign_btn.get_rgba ())); //Font colour for signature
-            _keyfile.set_string ("vcs", "fg_tstamps", this.rgb_to_hex(fg_tstamps_btn.get_rgba ())); //Font colour for timestamps
-            _keyfile.set_string ("vcs", "fg_title", this.rgb_to_hex(fg_title_btn.get_rgba ())); //Font colour for the title
+            _keyfile.set_string ("vcs", "bg_heading", this.rgb_to_hex (bg_heading_btn.get_rgba ())); //Background for meta info (size, codec…) 
+            _keyfile.set_string ("vcs", "bg_sign", this.rgb_to_hex (bg_sign_btn.get_rgba ())); //Background for signature 
+            _keyfile.set_string ("vcs", "bg_title", this.rgb_to_hex (bg_title_btn.get_rgba ())); //Background for the title (see -T)
+            _keyfile.set_string ("vcs", "bg_contact", this.rgb_to_hex (bg_contact_btn.get_rgba ())); //Background for the captures 
+            _keyfile.set_string ("vcs", "bg_tstamps", this.rgb_to_hex ( bg_tstamps_btn.get_rgba ())); //Background for the timestamps box
+            _keyfile.set_string ("vcs", "fg_heading", this.rgb_to_hex (fg_heading_btn.get_rgba ())); //Font colour for meta info box
+            _keyfile.set_string ("vcs", "fg_sign", this.rgb_to_hex (fg_sign_btn.get_rgba ())); //Font colour for signature
+            _keyfile.set_string ("vcs", "fg_tstamps", this.rgb_to_hex (fg_tstamps_btn.get_rgba ())); //Font colour for timestamps
+            _keyfile.set_string ("vcs", "fg_title", this.rgb_to_hex (fg_title_btn.get_rgba ())); //Font colour for the title
             try {
                 _keyfile.save_to_file (conf_file);
                 if (show_dialog) {
-                    Gtk.MessageDialog popup = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.INFO, Gtk.ButtonsType.CLOSE, _("Preferences saved!"));
+                    Gtk.MessageDialog popup = new Gtk.MessageDialog (
+                        this,
+                        Gtk.DialogFlags.MODAL,
+                        Gtk.MessageType.INFO,
+                        Gtk.ButtonsType.CLOSE,
+                        _("Preferences saved!")
+                    );
                     popup.format_secondary_text (_("All the preferences are saved.\nNow you can close this window."));
                     popup.run ();
                     popup.destroy ();
                 }
             } catch (FileError e) {
-                Gtk.MessageDialog error_dialog = new Gtk.MessageDialog (this, Gtk.DialogFlags.MODAL, Gtk.MessageType.ERROR, Gtk.ButtonsType.CLOSE, _("Error"));
+                Gtk.MessageDialog error_dialog = new Gtk.MessageDialog (
+                    this,
+                    Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CLOSE,
+                    _("Error")
+                );
                 error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
                 error_dialog.run ();
                 error_dialog.destroy ();
                 error (e.message);
             }
-            
+
         }
     }
 }
