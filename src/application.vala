@@ -22,30 +22,31 @@ namespace VcsCreator {
         var application = new Application ();
         return application.run (args);
     }
-    
+
     public class Application : Gtk.Application {
 
         private const string APP_NAME = "VCS Creator";
-        private const string VERSION = "0.1.0";
-        private const string APP_ID = "com.github.tudo75.vcs-creator";
-        private const string APP_LANG_DOMAIN = "vcs-creator";
-        private const string APP_INSTALL_PREFIX = "/usr/local";
-        private int APP_WIDTH = 428;
-        private int APP_HEIGHT = 228;
+        private const string VERSION = Constants.VERSION;
+        private const string APP_ID = Constants.PROJECT_NAME;
+        private const string APP_LANG_DOMAIN = Constants.GETTEXT_PACKAGE;
+        private const string APP_INSTALL_PREFIX = Constants.PREFIX;
+        private const int APP_WIDTH = 428;
+        private const int APP_HEIGHT = 228;
 
         private Gtk.ApplicationWindow window;
         private Gtk.HeaderBar headerbar;
         private Gtk.PopoverMenu popover;
         private Gtk.Button btn_start;
-        
-        private const Gtk.TargetEntry[] targets = {
+
+        private const Gtk.TargetEntry[] TARGETS = {
             {"text/uri-list", 0, 0}
         };
 
-        private const string[] extensions = {
-            ".webm",".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".ogv", ".mp4", ".m4p", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf"
+        private const string[] EXTENSIONS = {
+            ".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".ogv", ".mp4",
+            ".m4p", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf"
         };
-        
+
         private Queue<string> files_queue;
         private int start_index = 0;
 
@@ -56,7 +57,7 @@ namespace VcsCreator {
 
         public Application () {
             Object (
-                application_id: APP_ID, 
+                application_id: APP_ID,
                 flags: ApplicationFlags.FLAGS_NONE
             );
 
@@ -69,6 +70,14 @@ namespace VcsCreator {
             Intl.bindtextdomain (APP_ID, langpack_dir);
             Intl.bind_textdomain_codeset (APP_ID, "UTF-8");
             Intl.textdomain (APP_ID);
+            /*
+            print (
+                Constants.PROJECT_NAME + "\n" + 
+                Constants.GETTEXT_PACKAGE + "\n" + 
+                Constants.VERSION + "\n" + 
+                Constants.PREFIX + "\n"
+            );
+            */
         }
 
         construct {
@@ -112,7 +121,11 @@ namespace VcsCreator {
         private void init_style () {
             Gtk.CssProvider css_provider = new Gtk.CssProvider ();
             css_provider.load_from_resource ("/com/github/tudo75/vcs-creator/style.css");
-            Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+            Gtk.StyleContext.add_provider_for_screen (
+                Gdk.Screen.get_default (),
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_USER
+            );
         }
 
         /**
@@ -125,7 +138,7 @@ namespace VcsCreator {
             headerbar.set_title (APP_NAME);
             headerbar.set_hexpand (true);
             headerbar.set_show_close_button (true);
-            
+
             popover = new Gtk.PopoverMenu ();
             this.init_popover ();
 
@@ -171,35 +184,35 @@ namespace VcsCreator {
          * Initialize main window content
          */
         private void init_window () {
-            Gtk.Box vboxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            window.add (vboxMain);
+            Gtk.Box vbox_main = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            window.add (vbox_main);
 
             Gtk.Image drop_image = new Gtk.Image.from_resource ("/com/github/tudo75/vcs-creator/drophere.png");
 
             //layout
-            Gtk.Layout layout = new Gtk.Layout(null, null);
+            Gtk.Layout layout = new Gtk.Layout ( null, null);
             layout.set_size_request (APP_WIDTH, APP_HEIGHT);
-            vboxMain.add(layout);
-            layout.show();
-            layout.put(drop_image, 150, 50);
+            vbox_main.add (layout);
+            layout.show ();
+            layout.put (drop_image, 150, 50);
 
             //connect drag drop handlers
-            Gtk.drag_dest_set (layout, Gtk.DestDefaults.ALL, targets, Gdk.DragAction.COPY);
-            layout.drag_data_received.connect(this.on_drag_data_received);
+            Gtk.drag_dest_set (layout, Gtk.DestDefaults.ALL, TARGETS, Gdk.DragAction.COPY);
+            layout.drag_data_received.connect (this.on_drag_data_received);
 
             btn_start = new Gtk.Button.with_label (_("Start"));
             btn_start.clicked.connect (this.on_btn_start_clicked);
 
-            vboxMain.add (btn_start);
+            vbox_main.add (btn_start);
         }
 
-    
-        private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y, 
+
+        private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y,
                                             Gtk.SelectionData data, uint info, uint time) {
             this.show_files_dialog ();
             //loop through list of URIs
-            foreach(string uri in data.get_uris ()){
-                string file = uri.replace("file://","").replace("file:/","");
+            foreach (string uri in data.get_uris ()) {
+                string file = uri.replace ("file://", "").replace ("file:/", "");
                 file = Uri.unescape_string (file);
 
                 //add file to tree view
@@ -250,23 +263,35 @@ namespace VcsCreator {
                         argv1[1] = src_file;
                         argv1 += "-o";
                         argv1 += src_file + "." + keyfile.get_string ("vcs", "format");
-                        
+
                         yield this.exec_proc (src_file, argv1, launcher, start_index);
                     } catch (GLib.Error e) {
-                        var error_dialog = new Gtk.MessageDialog (this.window, Gtk.DialogFlags.MODAL, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, _("Error"));
+                        var error_dialog = new Gtk.MessageDialog (
+                            this.window,
+                            Gtk.DialogFlags.MODAL,
+                            Gtk.MessageType.ERROR,
+                            Gtk.ButtonsType.OK,
+                            _("Error")
+                        );
                         error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
                         error_dialog.run ();
                         error_dialog.destroy ();
                     }
                 }
             } catch (KeyFileError e) {
-                Gtk.MessageDialog error_dialog = new Gtk.MessageDialog (this.window, Gtk.DialogFlags.MODAL, Gtk.MessageType.ERROR, Gtk.ButtonsType.CLOSE, _("Error"));
+                Gtk.MessageDialog error_dialog = new Gtk.MessageDialog (
+                    this.window,
+                    Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.CLOSE,
+                    _("Error")
+                );
                 error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
                 error_dialog.run ();
                 error_dialog.destroy ();
                 error (e.message);
             }
-            
+
             if (files_queue.get_length () > 0) {
                 btn_start.show ();
             }
@@ -291,11 +316,17 @@ namespace VcsCreator {
                         subp.send_signal (Posix.Signal.INT);
                         subp.send_signal (Posix.Signal.KILL);
                     }
-					Idle.add ((owned) callback);
+                    Idle.add ((owned) callback);
                 });
                 yield;
             } catch (GLib.Error e) {
-                var error_dialog = new Gtk.MessageDialog (this.window, Gtk.DialogFlags.MODAL, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, _("Error"));
+                var error_dialog = new Gtk.MessageDialog (
+                    this.window,
+                    Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.OK,
+                    _("Error")
+                );
                 error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
                 error_dialog.run ();
                 error_dialog.destroy ();
@@ -319,9 +350,9 @@ namespace VcsCreator {
          * is_video:
          *
          * Check if the file is a video (by extensions) returning true, false otherwise.
-         */      
+         */
         private bool is_video (string file) {
-            foreach (var extension in extensions) {
+            foreach (var extension in EXTENSIONS) {
                 if (file.has_suffix (extension)) {
                     return true;
                 }
@@ -333,7 +364,7 @@ namespace VcsCreator {
          * about_dialog:
          *
          * Create and display a #Gtk.AboutDialog window.
-         */            
+         */
         private void on_about_action () {
             // Configure the dialog:
             Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
@@ -373,7 +404,7 @@ namespace VcsCreator {
          * on_settings_action:
          *
          * Create and display a #Gtk.Dialog window.
-         */    
+         */
         private void on_settings_action () {
             SettingsDialog settings_dialog = new SettingsDialog (keyfile);
             settings_dialog.set_transient_for (this.active_window);
@@ -386,7 +417,7 @@ namespace VcsCreator {
          * load_keyfile:
          *
          * Load a #GLib.KeyFile to handle vcs settings.
-         */    
+         */
         public void load_keyfile () {
             keyfile = new KeyFile ();
             try {

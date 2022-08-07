@@ -84,10 +84,9 @@ namespace VcsCreator {
             this.spinner_area.pack_start (spinner_lbl, false, false, 10);
             get_content_area ().add (this.spinner_area);
             this.hide_spinner ();
-        }    
+        }
 
-        public void add_file (string file)
-        {
+        public void add_file (string file) {
             Gtk.TreeIter iter;
             list_store.append (out iter);
             list_store.set (iter, 0, false, 1, file);
@@ -119,13 +118,13 @@ namespace VcsCreator {
                 GLib.Value value;
                 list_store.get_value (iter, 1, out value);
                 if (file == value.get_string ()) {
-                    list_store.set (iter,0, true, 1, file);
+                    list_store.set (iter, 0, true, 1, file);
                     return true;
                 } else {
                     while (list_store.iter_next (ref iter)) {
                         list_store.get_value (iter, 1, out value);
                         if (file == value.get_string ()) {
-                            list_store.set (iter,0, true, 1, file);
+                            list_store.set (iter, 0, true, 1, file);
                             return true;
                         }
                     }
