@@ -44,7 +44,8 @@ namespace VcsCreator {
 
         private const string[] EXTENSIONS = {
             ".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".ogv", ".mp4",
-            ".m4p", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf"
+            ".m4p", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".mkv",
+            ".vob", ".ts", ".m2ts", ".mts", ".rm", ".rmvb", ".asf", ".3gp"
         };
 
         private Queue<string> files_queue;
@@ -353,7 +354,7 @@ namespace VcsCreator {
          */
         private bool is_video (string file) {
             foreach (var extension in EXTENSIONS) {
-                if (file.has_suffix (extension)) {
+                if (file.down ().has_suffix (extension)) {
                     return true;
                 }
             }
