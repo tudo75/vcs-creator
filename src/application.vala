@@ -234,7 +234,7 @@ namespace VcsCreator {
             files_dialog.show_spinner ();
             this.show_files_dialog ();
             string src_files = "";
-            string[] argv= {"vcs", "", "-A"};
+            string[] argv= {"vcs", "", "-A", "-Wc"};
             try {
                 argv += "-H";
                 argv += keyfile.get_integer ("vcs-cmd", "capture_height").to_string ();
@@ -302,10 +302,11 @@ namespace VcsCreator {
         private async void exec_proc (string src_file, string[] argv, SubprocessLauncher launcher, int index) {
             SourceFunc callback = exec_proc.callback;
             try {
+                launcher.setenv ("TERM", "vt100", true);
                 Subprocess subp = launcher.spawnv (argv);
                 subp.wait_async.begin (null, (obj, res) => {
                     try {
-                        subp.wait_async.end (res);
+                        subp.wait_check_async.end (res);
                         if (subp.get_if_exited ()) {
                             files_dialog.file_done (src_file);
                             if (files_dialog.get_list_size () == index) {
@@ -313,6 +314,17 @@ namespace VcsCreator {
                             }
                         }
                     } catch (Error e) {
+                        var error_dialog = new Gtk.MessageDialog (
+                            this.window,
+                            Gtk.DialogFlags.MODAL,
+                            Gtk.MessageType.ERROR,
+                            Gtk.ButtonsType.OK,
+                            _("Error")
+                        );
+                        error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
+                        error_dialog.run ();
+                        error_dialog.destroy ();
+
                         // cancelled
                         subp.send_signal (Posix.Signal.INT);
                         subp.send_signal (Posix.Signal.KILL);
