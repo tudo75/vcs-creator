@@ -1,3 +1,11 @@
+vcs-creator (0.1.3) una; urgency=medium
+
+  * Fixed error due to bad handling of colored output of vcs
+  * Added more video extensions
+  * Other minor fixes
+
+ -- tudo75 <tudo75@users.noreply.github.com>  Fri, 15 Jul 2022 14:08:55 +0000
+
 vcs-creator (0.1.2) una; urgency=medium
 
   * Small fixes and improvements for deb generation.
