@@ -7,22 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.tudo75.vcs-creator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-15 14:01+0200\n"
-"PO-Revision-Date: 2022-07-15 14:02+0200\n"
+"POT-Creation-Date: 2023-04-13 01:47+0200\n"
+"PO-Revision-Date: 2023-04-13 01:48+0200\n"
 "Last-Translator: Nicola Tudino <tudo75@gmail.com>\n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: src/application.vala\n"
 "X-Poedit-SearchPath-1: src/settingsdialog.vala\n"
 "X-Poedit-SearchPath-2: resources/vcs-creator.desktop\n"
+"X-Poedit-SearchPath-3: src/filesdialog.vala\n"
 
-#: resources/vcs-creator.desktop:5 src/application.vala:353
+#: resources/vcs-creator.desktop:5 src/application.vala:436
 msgid "VCS Creator"
 msgstr ""
 
@@ -30,50 +31,59 @@ msgstr ""
 msgid "GUI for the Video Contact Sheet script"
 msgstr ""
 
-#: resources/vcs-creator.desktop:9
-msgid "vcs-creator"
-msgstr ""
-
-#: src/application.vala:150
+#: src/application.vala:163
 msgid "Show files list"
 msgstr ""
 
-#: src/application.vala:153
+#: src/application.vala:166
 msgid "Hide files list"
 msgstr ""
 
-#: src/application.vala:156 src/settingsdialog.vala:64
+#: src/application.vala:169 src/settingsdialog.vala:64
 msgid "Settings"
 msgstr ""
 
-#: src/application.vala:159
+#: src/application.vala:172
 msgid "About"
 msgstr ""
 
-#: src/application.vala:162 src/settingsdialog.vala:399
+#: src/application.vala:175 src/settingsdialog.vala:405
 msgid "Close"
 msgstr ""
 
-#: src/application.vala:190
+#: src/application.vala:203
 msgid "Start"
 msgstr ""
 
-#: src/application.vala:256 src/application.vala:257 src/application.vala:263
-#: src/application.vala:264 src/application.vala:298 src/application.vala:299
-#: src/settingsdialog.vala:476 src/settingsdialog.vala:477
+#: src/application.vala:297 src/application.vala:299 src/application.vala:311
+#: src/application.vala:313 src/application.vala:348 src/application.vala:350
+#: src/application.vala:369 src/application.vala:371
+#: src/settingsdialog.vala:493 src/settingsdialog.vala:495
 msgid "Error"
 msgstr ""
 
-#: src/application.vala:354
-msgid "Copyright 2022 Nicola \"tudo75\" Tudino"
+#: src/application.vala:437
+msgid "Copyright 2022-2023 Nicola \"tudo75\" Tudino"
 msgstr ""
 
-#: src/filesdialog.vala:43 src/filesdialog.vala:70
+#: src/filesdialog.vala:44 src/filesdialog.vala:71
 msgid "Files"
 msgstr ""
 
-#: src/filesdialog.vala:83
+#: src/filesdialog.vala:85
 msgid "Generating sheets"
+msgstr ""
+
+#: src/filesdialog.vala:88
+msgid "Remove item from list"
+msgstr ""
+
+#: src/filesdialog.vala:188
+msgid "Info"
+msgstr ""
+
+#: src/filesdialog.vala:190
+msgid "Contact sheet creation in progress."
 msgstr ""
 
 #: src/settingsdialog.vala:84
@@ -100,173 +110,173 @@ msgstr ""
 msgid "Capture mode"
 msgstr ""
 
-#: src/settingsdialog.vala:110
+#: src/settingsdialog.vala:111
 msgid ""
 "Screenshots capture mode:\n"
 "ruled by time interval or by total number of captures"
 msgstr ""
 
-#: src/settingsdialog.vala:131
+#: src/settingsdialog.vala:133
 msgid "Image format"
 msgstr ""
 
-#: src/settingsdialog.vala:134
+#: src/settingsdialog.vala:136
 msgid "Image format for the sheet"
 msgstr ""
 
-#: src/settingsdialog.vala:154
+#: src/settingsdialog.vala:156
 msgid "Image quality"
 msgstr ""
 
-#: src/settingsdialog.vala:158
+#: src/settingsdialog.vala:160
 msgid "Quality level for the sheet: 0 to 100"
 msgstr ""
 
-#: src/settingsdialog.vala:166
+#: src/settingsdialog.vala:168
 msgid "Signature prefix"
 msgstr ""
 
-#: src/settingsdialog.vala:170
+#: src/settingsdialog.vala:172
 msgid "Prefix for the user signature in the footer"
 msgstr ""
 
-#: src/settingsdialog.vala:172
+#: src/settingsdialog.vala:174
 msgid "Signature"
 msgstr ""
 
-#: src/settingsdialog.vala:185
+#: src/settingsdialog.vala:187
 msgid "Enable the user signature in the sheet footer"
 msgstr ""
 
-#: src/settingsdialog.vala:193
+#: src/settingsdialog.vala:195
 msgid "Number of columns"
 msgstr ""
 
-#: src/settingsdialog.vala:197
+#: src/settingsdialog.vala:199
 msgid "Number of columns in the sheet"
 msgstr ""
 
-#: src/settingsdialog.vala:205
+#: src/settingsdialog.vala:207
 msgid "Padding"
 msgstr ""
 
-#: src/settingsdialog.vala:209
+#: src/settingsdialog.vala:211
 msgid "Padding space between images"
 msgstr ""
 
-#: src/settingsdialog.vala:212
+#: src/settingsdialog.vala:214
 msgid "Show shadows"
 msgstr ""
 
-#: src/settingsdialog.vala:221
+#: src/settingsdialog.vala:223
 msgid "Enable drop shadows"
 msgstr ""
 
-#: src/settingsdialog.vala:230
+#: src/settingsdialog.vala:232
 msgid "Capture height"
 msgstr ""
 
-#: src/settingsdialog.vala:234
+#: src/settingsdialog.vala:240
 msgid "Height of the single capture frame"
 msgstr ""
 
-#: src/settingsdialog.vala:237
+#: src/settingsdialog.vala:243
 msgid "Show timestamps"
 msgstr ""
 
-#: src/settingsdialog.vala:246
+#: src/settingsdialog.vala:252
 msgid "Diplay timestamps on captures"
 msgstr ""
 
-#: src/settingsdialog.vala:254
+#: src/settingsdialog.vala:260
 msgid "Colors"
 msgstr ""
 
-#: src/settingsdialog.vala:263
+#: src/settingsdialog.vala:269
 msgid "Header background"
 msgstr ""
 
-#: src/settingsdialog.vala:266
+#: src/settingsdialog.vala:272
 msgid "Background color for the header section"
 msgstr ""
 
-#: src/settingsdialog.vala:271
+#: src/settingsdialog.vala:277
 msgid "Header font color"
 msgstr ""
 
-#: src/settingsdialog.vala:274
+#: src/settingsdialog.vala:280
 msgid "Font color for the header section"
 msgstr ""
 
-#: src/settingsdialog.vala:285
+#: src/settingsdialog.vala:291
 msgid "Signature background"
 msgstr ""
 
-#: src/settingsdialog.vala:288
+#: src/settingsdialog.vala:294
 msgid "Background color for the signature section"
 msgstr ""
 
-#: src/settingsdialog.vala:293
+#: src/settingsdialog.vala:299
 msgid "Signature font color"
 msgstr ""
 
-#: src/settingsdialog.vala:296
+#: src/settingsdialog.vala:302
 msgid "Font color for the signature section"
 msgstr ""
 
-#: src/settingsdialog.vala:307
+#: src/settingsdialog.vala:313
 msgid "Title background"
 msgstr ""
 
-#: src/settingsdialog.vala:310
+#: src/settingsdialog.vala:316
 msgid "Background color for the title section"
 msgstr ""
 
-#: src/settingsdialog.vala:315
+#: src/settingsdialog.vala:321
 msgid "Title font color"
 msgstr ""
 
-#: src/settingsdialog.vala:318
+#: src/settingsdialog.vala:324
 msgid "Font color for the title section"
 msgstr ""
 
-#: src/settingsdialog.vala:329
+#: src/settingsdialog.vala:335
 msgid "Timestamps background"
 msgstr ""
 
-#: src/settingsdialog.vala:332
+#: src/settingsdialog.vala:338
 msgid "Background color for the timestamps box"
 msgstr ""
 
-#: src/settingsdialog.vala:337
+#: src/settingsdialog.vala:343
 msgid "Timestamps font color"
 msgstr ""
 
-#: src/settingsdialog.vala:340
+#: src/settingsdialog.vala:346
 msgid "Font color for the timestamps box"
 msgstr ""
 
-#: src/settingsdialog.vala:351
+#: src/settingsdialog.vala:357
 msgid "Captures background"
 msgstr ""
 
-#: src/settingsdialog.vala:354
+#: src/settingsdialog.vala:360
 msgid "Background color for the captures section"
 msgstr ""
 
-#: src/settingsdialog.vala:397
+#: src/settingsdialog.vala:403
 msgid "Save"
 msgstr ""
 
-#: src/settingsdialog.vala:398
+#: src/settingsdialog.vala:404
 msgid "Apply"
 msgstr ""
 
-#: src/settingsdialog.vala:470
+#: src/settingsdialog.vala:481
 msgid "Preferences saved!"
 msgstr ""
 
-#: src/settingsdialog.vala:471
+#: src/settingsdialog.vala:483
 msgid ""
 "All the preferences are saved.\n"
 "Now you can close this window."

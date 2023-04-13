@@ -1,6 +1,6 @@
 /* filesdialog.vala
  *
- * Copyright 2022 Nicola tudo75 Tudino
+ * Copyright 2022-2023 Nicola tudo75 Tudino
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ namespace VcsCreator {
         private Gtk.Spinner spinner;
         private Gtk.Label spinner_lbl;
         private Gtk.Box spinner_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+        private Gtk.Button btn_remove_item;
 
         public const int WIDTH = 500;
         public const int HEIGHT = 450;
@@ -45,11 +46,11 @@ namespace VcsCreator {
             get_content_area ().set_spacing (10);
 
             //tv_files
-            list_store = new Gtk.ListStore (2, typeof (bool), typeof (string));
+            list_store = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (bool));
             tv_files = new Gtk.TreeView.with_model (list_store);
 
             //sw_files
-            sw_files = new Gtk.ScrolledWindow (tv_files.get_hadjustment (), tv_files.get_vadjustment ());
+            sw_files = new Gtk.ScrolledWindow (((Gtk.Scrollable) tv_files).get_hadjustment (), ((Gtk.Scrollable) tv_files).get_vadjustment ());
             sw_files.set_shadow_type (Gtk.ShadowType.ETCHED_IN);
             sw_files.add (tv_files);
             sw_files.set_size_request (WIDTH, HEIGHT);
@@ -80,16 +81,22 @@ namespace VcsCreator {
             this.spinner = new Gtk.Spinner ();
             this.spinner.set_size_request (32, 32);
             this.spinner_area.pack_start (spinner, false, false, 10);
+
             spinner_lbl =new Gtk.Label (_("Generating sheets"));
             this.spinner_area.pack_start (spinner_lbl, false, false, 10);
+
+            btn_remove_item = new Gtk.Button.with_label (_("Remove item from list"));
+            btn_remove_item.clicked.connect (on_clicked_remove_item);
+            this.spinner_area.pack_end (btn_remove_item, false, false, 12);
             get_content_area ().add (this.spinner_area);
+            this.spinner_area.show_all ();
             this.hide_spinner ();
         }
 
         public void add_file (string file) {
             Gtk.TreeIter iter;
             list_store.append (out iter);
-            list_store.set (iter, 0, false, 1, file);
+            list_store.set (iter, 0, false, 1, file, 2, false);
         }
 
         public bool find_file (string file) {
@@ -118,13 +125,13 @@ namespace VcsCreator {
                 GLib.Value value;
                 list_store.get_value (iter, 1, out value);
                 if (file == value.get_string ()) {
-                    list_store.set (iter, 0, true, 1, file);
+                    list_store.set (iter, 0, true, 1, file, 2, false);
                     return true;
                 } else {
                     while (list_store.iter_next (ref iter)) {
                         list_store.get_value (iter, 1, out value);
                         if (file == value.get_string ()) {
-                            list_store.set (iter, 0, true, 1, file);
+                            list_store.set (iter, 0, true, 1, file, 2, false);
                             return true;
                         }
                     }
@@ -136,14 +143,16 @@ namespace VcsCreator {
 
         public void show_spinner () {
             this.spinner_area.show_all ();
+            this.spinner.show ();
             this.spinner.start ();
             this.spinner_lbl.show ();
         }
 
         public void hide_spinner () {
             this.spinner.stop ();
+            this.spinner.hide ();
             this.spinner_lbl.hide ();
-            this.spinner_area.hide ();
+            //this.spinner_area.hide ();
         }
 
         public int get_list_size () {
@@ -153,6 +162,40 @@ namespace VcsCreator {
                 return false;
             });
             return count;
+        }
+
+        private void on_clicked_remove_item () {
+            Gtk.TreeSelection selected = this.tv_files.get_selection ();
+            selected.set_mode (Gtk.SelectionMode.SINGLE);
+            Gtk.TreeModel model;
+            Gtk.TreeIter iter;
+            selected.get_selected (out model, out iter);
+            Gtk.ListStore mmodel = (Gtk.ListStore) model;
+
+            GLib.Value busy;
+            mmodel.get_value (iter, 2, out busy);
+            if (!busy.get_boolean ()) {
+                GLib.Value value;
+                mmodel.get_value (iter, 1, out value);
+                mmodel.remove (ref iter);
+                value.unset ();
+            } else {
+                var info_dialog = new Gtk.MessageDialog (
+                    this,
+                    Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.INFO,
+                    Gtk.ButtonsType.OK,
+                    _("Info")
+                );
+                info_dialog.format_secondary_text (_("Contact sheet creation in progress."));
+                info_dialog.run ();
+                info_dialog.destroy ();
+            }
+            busy.unset ();
+        }
+
+        public Gtk.ListStore get_list () {
+            return list_store;
         }
     }
 }

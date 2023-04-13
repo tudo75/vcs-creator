@@ -1,6 +1,6 @@
 /* application.vala
  *
- * Copyright 2022 Nicola tudo75 Tudino
+ * Copyright 2022-2023 Nicola tudo75 Tudino
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,13 +48,12 @@ namespace VcsCreator {
             ".vob", ".ts", ".m2ts", ".mts", ".rm", ".rmvb", ".asf", ".3gp"
         };
 
-        private Queue<string> files_queue;
-        private int start_index = 0;
-
         private string conf_file = GLib.Environment.get_home_dir () + "/.vcs.conf";
         private KeyFile keyfile;
 
         private FilesDialog files_dialog;
+
+        private bool is_in_progress = false;
 
         public Application () {
             Object (
@@ -106,7 +105,7 @@ namespace VcsCreator {
             window.show_all ();
             window.show ();
             window.present ();
-            files_queue = new Queue<string> ();
+            
             btn_start.hide ();
 
             this.load_keyfile ();
@@ -207,7 +206,11 @@ namespace VcsCreator {
             vbox_main.add (btn_start);
         }
 
-
+        /**
+         * on_drag_data_received:
+         * 
+         * Handle the files draggegged inside the drop window
+         */
         private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y,
                                             Gtk.SelectionData data, uint info, uint time) {
             this.show_files_dialog ();
@@ -218,24 +221,29 @@ namespace VcsCreator {
 
                 //add file to tree view
                 if (this.is_video (file) && !files_dialog.find_file (file)) {
-                    files_queue.push_tail (file);
                     files_dialog.add_file (file);
                 }
             }
 
             Gtk.drag_finish (drag_context, true, false, time);
-            if (files_queue.get_length () > 0) {
+            
+            if (!is_in_progress)
                 btn_start.show ();
-            }
         }
 
+        /**
+         * on_btn_start_clicked:
+         * 
+         * Start the creation of the contact sheets from the videos
+         */
         private async void on_btn_start_clicked () {
+            is_in_progress = true;
             btn_start.hide ();
             files_dialog.show_spinner ();
             this.show_files_dialog ();
-            string src_files = "";
             string[] argv= {"vcs", "", "-A", "-Wc"};
             try {
+                //read the settings from the keyfile
                 argv += "-H";
                 argv += keyfile.get_integer ("vcs-cmd", "capture_height").to_string ();
                 argv += "-c";
@@ -253,19 +261,33 @@ namespace VcsCreator {
                 }
                 SubprocessLauncher launcher = new SubprocessLauncher (GLib.SubprocessFlags.INHERIT_FDS);
                 launcher.set_environ (Environ.get ());
-                while (files_queue.get_length () > 0) {
+                Gtk.ListStore list_store = files_dialog.get_list ();
+                Gtk.TreeIter iter;
+                //ierate through the liststore model
+                for (bool next = list_store.get_iter_first (out iter); next; next = list_store.iter_next (ref iter)) {
                     try {
-                        start_index++;
-
                         string[] argv1 = argv.copy ();
-                        string src_file = files_queue.pop_head ();
-                        src_files += "\n" + src_file;
+                        // verify if the contact sheet was previously created
+                        GLib.Value check;
+                        list_store.get_value (iter, 0, out check);
+                        if (!check.get_boolean ()) {
+                            check.unset ();
 
-                        argv1[1] = src_file;
-                        argv1 += "-o";
-                        argv1 += src_file + "." + keyfile.get_string ("vcs", "format");
+                            GLib.Value value;
+                            list_store.get_value (iter, 1, out value);
+                            string src_file = value.get_string ();
+                            value.unset ();
+                            list_store.set_value (iter, 2, true);
 
-                        yield this.exec_proc (src_file, argv1, launcher, start_index);
+                            argv1[1] = src_file;
+                            argv1 += "-o";
+                            argv1 += src_file + "." + keyfile.get_string ("vcs", "format");
+
+                            //launch the contact sheet creation asynchrously
+                            yield this.exec_proc (src_file, argv1, launcher);
+                        } else {
+                            check.unset ();
+                        }
                     } catch (GLib.Error e) {
                         var error_dialog = new Gtk.MessageDialog (
                             this.window,
@@ -277,6 +299,7 @@ namespace VcsCreator {
                         error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
                         error_dialog.run ();
                         error_dialog.destroy ();
+                        error (e.message);
                     }
                 }
             } catch (KeyFileError e) {
@@ -293,15 +316,21 @@ namespace VcsCreator {
                 error (e.message);
             }
 
-            if (files_queue.get_length () > 0) {
-                btn_start.show ();
-            }
-
+            is_in_progress = false;
+            btn_start.show ();
+            files_dialog.hide_spinner ();
         }
 
-        private async void exec_proc (string src_file, string[] argv, SubprocessLauncher launcher, int index) {
+        /**
+         * exec_proc:
+         * 
+         * Launch the vcs async sub process
+         */
+        private async void exec_proc (string src_file, string[] argv, SubprocessLauncher launcher) {
             SourceFunc callback = exec_proc.callback;
             try {
+                // set env param to remove vcs error for process not launched 
+                // in a terminal that supoort coloured output
                 launcher.setenv ("TERM", "vt100", true);
                 Subprocess subp = launcher.spawnv (argv);
                 subp.wait_async.begin (null, (obj, res) => {
@@ -309,9 +338,6 @@ namespace VcsCreator {
                         subp.wait_check_async.end (res);
                         if (subp.get_if_exited ()) {
                             files_dialog.file_done (src_file);
-                            if (files_dialog.get_list_size () == index) {
-                                files_dialog.hide_spinner ();
-                            }
                         }
                     } catch (Error e) {
                         var error_dialog = new Gtk.MessageDialog (
@@ -328,6 +354,8 @@ namespace VcsCreator {
                         // cancelled
                         subp.send_signal (Posix.Signal.INT);
                         subp.send_signal (Posix.Signal.KILL);
+                        
+                        error (e.message);
                     }
                     Idle.add ((owned) callback);
                 });
@@ -343,9 +371,15 @@ namespace VcsCreator {
                 error_dialog.format_secondary_text (_("Error") + ":\n" + e.message);
                 error_dialog.run ();
                 error_dialog.destroy ();
+                error (e.message);
             }
         }
 
+        /**
+         * show_files_dialog:
+         * 
+         * Display the dialog windows containing the treeview of the video files
+         */
         private void show_files_dialog () {
             int x;
             int y;
@@ -355,6 +389,11 @@ namespace VcsCreator {
             files_dialog.present ();
         }
 
+        /**
+         * show_files_dialog:
+         * 
+         * Hide the dialog windows containing the treeview of the video files
+         */
         private void hide_files_dialog () {
             files_dialog.hide ();
         }
@@ -395,7 +434,7 @@ namespace VcsCreator {
 
             dialog.program_name = APP_NAME;
             dialog.comments = _("VCS Creator");
-            dialog.copyright = _("Copyright 2022 Nicola \"tudo75\" Tudino");
+            dialog.copyright = _("Copyright 2022-2023 Nicola \"tudo75\" Tudino");
             dialog.version = VERSION;
 
             dialog.set_license_type (Gtk.License.GPL_3_0_ONLY);
