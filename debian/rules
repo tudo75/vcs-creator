@@ -6,7 +6,10 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 	dh $@ --parallel
 
 override_dh_install:
-	dh_install --list-missing
+	dh_install
+
+override_dh_missing:
+	dh_missing --list-missing
 
 override_dh_auto_configure:
 	meson debian/build \
