@@ -1,3 +1,11 @@
+vcs-creator (0.1.5) una; urgency=medium
+
+  * Gui refactoring
+  * Added check to verify if vcs executable exist
+  * Added button to browse video file to add
+
+ -- tudo75 <tudo75@users.noreply.github.com>  Fri, 15 Jul 2022 14:08:55 +0000
+
 vcs-creator (0.1.4) una; urgency=medium
 
   * Added button to remove item from list
