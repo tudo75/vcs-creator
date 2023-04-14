@@ -30,12 +30,11 @@ namespace VcsCreator {
         private const string APP_ID = Constants.PROJECT_NAME;
         private const string APP_LANG_DOMAIN = Constants.GETTEXT_PACKAGE;
         private const string APP_INSTALL_PREFIX = Constants.PREFIX;
-        private const int APP_WIDTH = 428;
-        private const int APP_HEIGHT = 228;
+        private const int APP_WIDTH = 600;
+        private const int APP_HEIGHT = 700;
 
         private Gtk.ApplicationWindow window;
         private Gtk.HeaderBar headerbar;
-        private Gtk.PopoverMenu popover;
         private Gtk.Button btn_start;
 
         private const Gtk.TargetEntry[] TARGETS = {
@@ -80,18 +79,6 @@ namespace VcsCreator {
             */
         }
 
-        construct {
-            ActionEntry[] action_entries = {
-                { "show_files_dialog", this.show_files_dialog },
-                { "hide_files_dialog", this.hide_files_dialog },
-                { "about", this.on_about_action },
-                { "settings", this.on_settings_action },
-                { "quit", this.quit }
-            };
-            this.add_action_entries (action_entries, this);
-            //this.set_accels_for_action ("app.quit", {"<primary>q"});
-        }
-
         public override void activate () {
             base.activate ();
             window = new Gtk.ApplicationWindow (this);
@@ -106,11 +93,24 @@ namespace VcsCreator {
             window.show ();
             window.present ();
             
-            btn_start.hide ();
+            //btn_start.set_sensitive (false);
+            btn_start.set_sensitive (false);
 
-            this.load_keyfile ();
-            files_dialog = new FilesDialog ();
-            files_dialog.set_transient_for (this.active_window);
+            if (!GLib.FileUtils.test ("/usr/bin/vcs", FileTest.IS_REGULAR)) {
+                var error_dialog = new Gtk.MessageDialog (
+                    this.window,
+                    Gtk.DialogFlags.MODAL,
+                    Gtk.MessageType.ERROR,
+                    Gtk.ButtonsType.OK,
+                    _("Error")
+                );
+                error_dialog.format_secondary_text (_("VCS executable not found.\nThe correct path must be /usr/bin/vcs"));
+                error_dialog.run ();
+                error_dialog.destroy ();
+                this.quit ();
+            } else {
+                this.load_keyfile ();
+            }
         }
 
         /**
@@ -139,43 +139,28 @@ namespace VcsCreator {
             headerbar.set_hexpand (true);
             headerbar.set_show_close_button (true);
 
-            popover = new Gtk.PopoverMenu ();
-            this.init_popover ();
+            // add logo to the left of the headerbar
+            try {
+                Gdk.Pixbuf pf_logo = new Gdk.Pixbuf.from_resource_at_scale ("/com/github/tudo75/vcs-creator/vcs-creator.svg", 24, 24, true);
+                Gtk.Image logo = new Gtk.Image.from_pixbuf (pf_logo);
+                headerbar.pack_start (logo);
+            } catch (GLib.Error e) {
+                error (e.message);
+            }
 
-            Gtk.MenuButton menu_btn = new Gtk.MenuButton ();
-            menu_btn.set_use_popover (true);
-            //menu_btn.set_active (true);
-            menu_btn.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU));
-            menu_btn.set_popover (popover);
-            headerbar.pack_end (menu_btn);
+            Gtk.Button btn_open = new Gtk.Button.with_label (_("Add file"));
+            btn_open.clicked.connect (on_btn_open_clicked);
+            headerbar.pack_start (btn_open);
+
+            Gtk.Button btn_about = new Gtk.Button.from_icon_name ("help-about-symbolic", Gtk.IconSize.MENU);
+            btn_about.clicked.connect (on_about_action);
+            headerbar.pack_end (btn_about);
+
+            Gtk.Button btn_settings = new Gtk.Button.from_icon_name ("preferences-system-symbolic", Gtk.IconSize.MENU);
+            btn_settings.clicked.connect (on_settings_action);
+            headerbar.pack_end (btn_settings);
 
             window.set_titlebar (headerbar);
-        }
-
-        /**
-         * init_popover:
-         *
-         * Initialize PopoverMenu for the HeaderBar
-         */
-        private void init_popover () {
-            GLib.Menu menu = new GLib.Menu ();
-
-            GLib.MenuItem show_files_dialog_item = new GLib.MenuItem (_("Show files list"), "app.show_files_dialog");
-            menu.append_item (show_files_dialog_item);
-
-            GLib.MenuItem hide_files_dialog_item = new GLib.MenuItem (_("Hide files list"), "app.hide_files_dialog");
-            menu.append_item (hide_files_dialog_item);
-
-            GLib.MenuItem pref_item = new GLib.MenuItem (_("Settings"), "app.settings");
-            menu.append_item (pref_item);
-
-            GLib.MenuItem about_item = new GLib.MenuItem (_("About"), "app.about");
-            menu.append_item (about_item);
-
-            GLib.MenuItem close_item = new GLib.MenuItem (_("Close"), "app.quit");
-            menu.append_item (close_item);
-
-            popover.bind_model (menu, null);
         }
 
         /**
@@ -191,16 +176,29 @@ namespace VcsCreator {
 
             //layout
             Gtk.Layout layout = new Gtk.Layout ( null, null);
-            layout.set_size_request (APP_WIDTH, APP_HEIGHT);
+            layout.set_size_request (APP_WIDTH, 200);
             vbox_main.add (layout);
             layout.show ();
-            layout.put (drop_image, 150, 50);
+            layout.put (drop_image, 236, 35);
+            // add tooltip to the drop area
+            layout.set_tooltip_text (_("Drop files here!"));
 
             //connect drag drop handlers
             Gtk.drag_dest_set (layout, Gtk.DestDefaults.ALL, TARGETS, Gdk.DragAction.COPY);
             layout.drag_data_received.connect (this.on_drag_data_received);
+            
+            // Add file box
+            files_dialog = new FilesDialog ();
+            files_dialog.hide_spinner ();
+            vbox_main.add (files_dialog);
+
+            files_dialog.item_removed.connect (on_item_removed);
 
             btn_start = new Gtk.Button.with_label (_("Start"));
+            btn_start.set_margin_start (10);
+            btn_start.set_margin_end (10);
+            btn_start.set_margin_top (10);
+            btn_start.set_margin_bottom (10);
             btn_start.clicked.connect (this.on_btn_start_clicked);
 
             vbox_main.add (btn_start);
@@ -213,7 +211,6 @@ namespace VcsCreator {
          */
         private void on_drag_data_received (Gdk.DragContext drag_context, int x, int y,
                                             Gtk.SelectionData data, uint info, uint time) {
-            this.show_files_dialog ();
             //loop through list of URIs
             foreach (string uri in data.get_uris ()) {
                 string file = uri.replace ("file://", "").replace ("file:/", "");
@@ -228,7 +225,41 @@ namespace VcsCreator {
             Gtk.drag_finish (drag_context, true, false, time);
             
             if (!is_in_progress)
-                btn_start.show ();
+                btn_start.set_sensitive (true);
+        }
+
+        /**
+         * on_btn_open_clicked:
+         * 
+         * Add video file browsed to the list
+         */
+        private void on_btn_open_clicked () {
+            Gtk.FileChooserDialog file_chooser = new Gtk.FileChooserDialog (
+                                        _("Add file"), window,
+                                        Gtk.FileChooserAction.OPEN,
+                                        _("Cancel"), Gtk.ResponseType.CANCEL,
+                                        _("Add file"), Gtk.ResponseType.ACCEPT);
+
+            Gtk.FileFilter filter = new Gtk.FileFilter ();
+            filter.set_filter_name (_("Video"));
+            foreach (var extension in EXTENSIONS) {
+                filter.add_pattern ("*" + extension);
+            }
+            file_chooser.set_filter (filter);
+
+            if (file_chooser.run () == Gtk.ResponseType.ACCEPT) {
+                string file = Uri.unescape_string (file_chooser.get_filename ());
+
+                //add file to tree view
+                if (this.is_video (file) && !files_dialog.find_file (file)) {
+                    files_dialog.add_file (file);
+                }
+                
+            }
+            file_chooser.destroy ();
+
+            if (!is_in_progress)
+                btn_start.set_sensitive (true);
         }
 
         /**
@@ -238,9 +269,8 @@ namespace VcsCreator {
          */
         private async void on_btn_start_clicked () {
             is_in_progress = true;
-            btn_start.hide ();
+            btn_start.set_sensitive (false);
             files_dialog.show_spinner ();
-            this.show_files_dialog ();
             string[] argv= {"vcs", "", "-A", "-Wc"};
             try {
                 //read the settings from the keyfile
@@ -317,7 +347,7 @@ namespace VcsCreator {
             }
 
             is_in_progress = false;
-            btn_start.show ();
+            btn_start.set_sensitive (true);
             files_dialog.hide_spinner ();
         }
 
@@ -375,27 +405,16 @@ namespace VcsCreator {
             }
         }
 
-        /**
-         * show_files_dialog:
-         * 
-         * Display the dialog windows containing the treeview of the video files
-         */
-        private void show_files_dialog () {
-            int x;
-            int y;
-            this.active_window.get_position (out x, out y);
-            files_dialog.move (x - FilesDialog.WIDTH - 50, y - ((FilesDialog.HEIGHT - APP_HEIGHT) / 2));
-            files_dialog.show ();
-            files_dialog.present ();
-        }
 
         /**
-         * show_files_dialog:
-         * 
-         * Hide the dialog windows containing the treeview of the video files
+         * on_item_removed:
+         *
+         * Disable start button if the files list is empty.
          */
-        private void hide_files_dialog () {
-            files_dialog.hide ();
+        private void on_item_removed () {
+            if (this.files_dialog.get_list_size () == 0) {
+                btn_start.set_sensitive (false);
+            }
         }
 
         /**
@@ -433,7 +452,7 @@ namespace VcsCreator {
             dialog.translator_credits = ("Nicola \"tudo75\" Tudino");
 
             dialog.program_name = APP_NAME;
-            dialog.comments = _("VCS Creator");
+            //dialog.comments = _("VCS Creator");
             dialog.copyright = _("Copyright 2022-2023 Nicola \"tudo75\" Tudino");
             dialog.version = VERSION;
 
@@ -455,7 +474,7 @@ namespace VcsCreator {
         /**
          * on_settings_action:
          *
-         * Create and display a #Gtk.Dialog window.
+         * Create and display a #Gtk.Dialog window for the preferences.
          */
         private void on_settings_action () {
             SettingsDialog settings_dialog = new SettingsDialog (keyfile);
@@ -469,6 +488,7 @@ namespace VcsCreator {
          * load_keyfile:
          *
          * Load a #GLib.KeyFile to handle vcs settings.
+         * If the file doesn't exist create a new one with default properties
          */
         public void load_keyfile () {
             keyfile = new KeyFile ();

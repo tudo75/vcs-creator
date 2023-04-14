@@ -18,7 +18,9 @@
 
 namespace VcsCreator {
 
-    public class FilesDialog : Gtk.Dialog {
+    public class FilesDialog : Gtk.Box {
+        // [Signal (run_last=true, type_none=true)]
+        public signal void item_removed ();
 
         private Gtk.ScrolledWindow sw_files;
         private Gtk.TreeView tv_files;
@@ -30,20 +32,14 @@ namespace VcsCreator {
         private Gtk.Box spinner_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
         private Gtk.Button btn_remove_item;
 
-        public const int WIDTH = 500;
-        public const int HEIGHT = 450;
+        public const int WIDTH = 600;
+        public const int HEIGHT = 400;
 
         public FilesDialog () {
 
             this.set_border_width (0);
-            this.set_decorated (true);
-            this.set_deletable (false);
-            this.set_resizable (true);
-            this.set_modal (false);
-            this.set_destroy_with_parent (true);
-            this.set_title (_("Files"));
-            this.set_default_size (WIDTH, HEIGHT);
-            get_content_area ().set_spacing (10);
+            this.set_spacing (10);
+            this.set_orientation (Gtk.Orientation.VERTICAL);
 
             //tv_files
             list_store = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (bool));
@@ -55,7 +51,7 @@ namespace VcsCreator {
             sw_files.add (tv_files);
             sw_files.set_size_request (WIDTH, HEIGHT);
             sw_files.show_all ();
-            get_content_area ().add (sw_files);
+            this.add (sw_files);
 
             //toggle column
             col_toggle = new Gtk.TreeViewColumn ();
@@ -82,21 +78,26 @@ namespace VcsCreator {
             this.spinner.set_size_request (32, 32);
             this.spinner_area.pack_start (spinner, false, false, 10);
 
-            spinner_lbl =new Gtk.Label (_("Generating sheets"));
+            spinner_lbl = new Gtk.Label (_("Generating sheets"));
+            spinner_lbl.hide ();
+            spinner_lbl.set_no_show_all (true);
             this.spinner_area.pack_start (spinner_lbl, false, false, 10);
 
+            // add remove item button to spinner area
             btn_remove_item = new Gtk.Button.with_label (_("Remove item from list"));
             btn_remove_item.clicked.connect (on_clicked_remove_item);
+            btn_remove_item.set_sensitive (false);
             this.spinner_area.pack_end (btn_remove_item, false, false, 12);
-            get_content_area ().add (this.spinner_area);
-            this.spinner_area.show_all ();
-            this.hide_spinner ();
+
+            // add spinner area to the main window
+            this.add (this.spinner_area);
         }
 
         public void add_file (string file) {
             Gtk.TreeIter iter;
             list_store.append (out iter);
             list_store.set (iter, 0, false, 1, file, 2, false);
+            btn_remove_item.set_sensitive (true);
         }
 
         public bool find_file (string file) {
@@ -142,7 +143,6 @@ namespace VcsCreator {
         }
 
         public void show_spinner () {
-            this.spinner_area.show_all ();
             this.spinner.show ();
             this.spinner.start ();
             this.spinner_lbl.show ();
@@ -152,7 +152,6 @@ namespace VcsCreator {
             this.spinner.stop ();
             this.spinner.hide ();
             this.spinner_lbl.hide ();
-            //this.spinner_area.hide ();
         }
 
         public int get_list_size () {
@@ -179,9 +178,13 @@ namespace VcsCreator {
                 mmodel.get_value (iter, 1, out value);
                 mmodel.remove (ref iter);
                 value.unset ();
+                this.item_removed ();
+                if (this.get_list_size () == 0) {
+                    btn_remove_item.set_sensitive (false);
+                }
             } else {
                 var info_dialog = new Gtk.MessageDialog (
-                    this,
+                    (Gtk.Window) this.get_parent_window (),
                     Gtk.DialogFlags.MODAL,
                     Gtk.MessageType.INFO,
                     Gtk.ButtonsType.OK,
