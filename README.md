@@ -2,10 +2,7 @@
 Small gui for the VCS (Video Contact Sheet *NIX) script
 
 <p align=center>
-  <img align="center" width="430" height="311" src="https://raw.githubusercontent.com/tudo75/vcs-creator/main/images/1.png">
-</p>
-<p align=center>
-  <img align="center" width="508" height="556" src="https://raw.githubusercontent.com/tudo75/vcs-creator/main/images/2.png">
+  <img align="center" width="602" height="749" src="https://raw.githubusercontent.com/tudo75/vcs-creator/main/images/3.png">
 </p>
 
 ## Requirements
