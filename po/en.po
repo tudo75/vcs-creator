@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.tudo75.vcs-creator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-13 01:47+0200\n"
-"PO-Revision-Date: 2023-04-13 01:48+0200\n"
+"POT-Creation-Date: 2023-04-14 04:10+0200\n"
+"PO-Revision-Date: 2023-04-14 04:10+0200\n"
 "Last-Translator: Nicola Tudino <tudo75@gmail.com>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: resources/vcs-creator.desktop\n"
 "X-Poedit-SearchPath-3: src/filesdialog.vala\n"
 
-#: resources/vcs-creator.desktop:5 src/application.vala:436
+#: resources/vcs-creator.desktop:5
 msgid "VCS Creator"
 msgstr ""
 
@@ -31,59 +31,65 @@ msgstr ""
 msgid "GUI for the Video Contact Sheet script"
 msgstr ""
 
-#: src/application.vala:163
-msgid "Show files list"
-msgstr ""
-
-#: src/application.vala:166
-msgid "Hide files list"
-msgstr ""
-
-#: src/application.vala:169 src/settingsdialog.vala:64
-msgid "Settings"
-msgstr ""
-
-#: src/application.vala:172
-msgid "About"
-msgstr ""
-
-#: src/application.vala:175 src/settingsdialog.vala:405
-msgid "Close"
-msgstr ""
-
-#: src/application.vala:203
-msgid "Start"
-msgstr ""
-
-#: src/application.vala:297 src/application.vala:299 src/application.vala:311
-#: src/application.vala:313 src/application.vala:348 src/application.vala:350
-#: src/application.vala:369 src/application.vala:371
+#: src/application.vala:105 src/application.vala:326 src/application.vala:328
+#: src/application.vala:340 src/application.vala:342 src/application.vala:377
+#: src/application.vala:379 src/application.vala:398 src/application.vala:400
 #: src/settingsdialog.vala:493 src/settingsdialog.vala:495
 msgid "Error"
 msgstr ""
 
-#: src/application.vala:437
+#: src/application.vala:107
+msgid ""
+"VCS executable not found.\n"
+"The correct path must be /usr/bin/vcs"
+msgstr ""
+
+#: src/application.vala:150 src/application.vala:237 src/application.vala:240
+msgid "Add file"
+msgstr ""
+
+#: src/application.vala:183
+msgid "Drop files here!"
+msgstr ""
+
+#: src/application.vala:196
+msgid "Start"
+msgstr ""
+
+#: src/application.vala:239
+msgid "Cancel"
+msgstr ""
+
+#: src/application.vala:243
+msgid "Video"
+msgstr ""
+
+#: src/application.vala:455
 msgid "Copyright 2022-2023 Nicola \"tudo75\" Tudino"
 msgstr ""
 
-#: src/filesdialog.vala:44 src/filesdialog.vala:71
+#: src/filesdialog.vala:67
 msgid "Files"
 msgstr ""
 
-#: src/filesdialog.vala:85
+#: src/filesdialog.vala:81
 msgid "Generating sheets"
 msgstr ""
 
-#: src/filesdialog.vala:88
+#: src/filesdialog.vala:87
 msgid "Remove item from list"
 msgstr ""
 
-#: src/filesdialog.vala:188
+#: src/filesdialog.vala:191
 msgid "Info"
 msgstr ""
 
-#: src/filesdialog.vala:190
+#: src/filesdialog.vala:193
 msgid "Contact sheet creation in progress."
+msgstr ""
+
+#: src/settingsdialog.vala:64
+msgid "Settings"
 msgstr ""
 
 #: src/settingsdialog.vala:84
@@ -270,6 +276,10 @@ msgstr ""
 
 #: src/settingsdialog.vala:404
 msgid "Apply"
+msgstr ""
+
+#: src/settingsdialog.vala:405
+msgid "Close"
 msgstr ""
 
 #: src/settingsdialog.vala:481
